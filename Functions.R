@@ -1,10 +1,12 @@
+##############################################
+#### Function for formating entries
+##############################################
+
 GetGenotype <- function(DataList,GenoColumns){
     unique(unlist(lapply(1:length(DataList), function(nn){
         unique(as.vector(DataList[[nn]][,GenoColumns[[nn]]]))
     })))    
 }
-
-
 
 GetCrossedGenotype <- function(DataList,GenoColumns){
     CG <- unique(unlist(lapply(1:length(DataList), function(nn){
@@ -18,7 +20,6 @@ GetCrossedGenotype <- function(DataList,GenoColumns){
     G <- GetGenotype(DataList,GenoColumns)
     CG <- c(CG,paste(G,G,sep='_'))
 }
-
 
 
 GetPhenotype <- function(DataList,Plist){
@@ -80,39 +81,4 @@ BuildZ_CrossedGenotype <- function(DataList,CG,Gcol){
         }
     }))
     
-}
-
-
-
-FitModelForMixture <- function(Pheno,X,LZ){
-    
-    ##Create local matrices
-    NotMissing <- !is.na(Pheno)
-    Znames <- names(LZ)
-    LZ <- lapply(LZ, function(ll) ll[NotMissing,])
-    X.loc <- X[NotMissing,,drop=F]
-    Y <- Pheno[NotMissing]
-    VarList <- lapply(LZ, tcrossprod)
-    names(VarList) <- Znames
-    VarList[['Residual']] <- diag(sum(NotMissing))
-
-    ##Infer variances and fixed effects
-    MLM <- RaviCpp(Y=Y, X=X.loc, VarList=VarList,MaxIter=30,Init=rep(10,length(VarList)),Crit=1e-3)
-    VarComp <- MLM$Sigma
-    VarY <- Reduce('+',lapply(1:length(VarList), function(vv) VarComp[vv]*VarList[[vv]]))
-    
-    ##Get BLUP
-    NormY <- solve(VarY,Y-X.loc%*%MLM$Beta)
-    Blup <- lapply(1:length(LZ), function(zz){
-        VarComp[zz]*crossprod(LZ[[zz]],NormY)
-    })
-
-    ##Predictions
-    Ypred <- X.loc%*%MLM$Beta + Reduce('+',lapply(1:length(LZ), function(zz){
-        LZ[[zz]]%*%Blup[[zz]]
-    }))
-
-    ##Summary
-    list(LZ=LZ,X=X.loc,Y=Y,VarComp=VarComp,Beta=MLM$Beta,Blup=Blup,Ypred=Ypred)    
-
 }
