@@ -1,8 +1,8 @@
-library(lme4)
-
 ##############################################
 ####  Modified lme4 functions for taking into account non binary Z matrices
 ##############################################
+library(lme4)
+
 myReTrms<-function(ListZ,ListVar=NULL){
   reTrms<-list()
   reTrms$Zt    <- Matrix(t(Reduce('cbind',ListZ)),sparse=TRUE)

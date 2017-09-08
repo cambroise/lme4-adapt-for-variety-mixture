@@ -1,0 +1,31 @@
+---
+title: R Code for allowing the lme4 package to consider non binary random design matrix
+author:  Christophe Ambroise
+date: "`r Sys.Date()`"
+output: 
+  html_document: 
+    toc: yes
+---
+
+
+# Mixed models and non  binary random design matrix
+
+The few functions available in this repository allow to consider 
+non  binary random design matrix using the machinery of the 'lme4' R package.
+
+Writing some classical mixed models for assessing the mixing abilitiy for cultivar mixture, we realized that no free R package was available (2017) for dealing with non binary random design matrix. Although 'lme4'is a widespread and effective package, it does only consider random design issued from group structures. 
+
+In order to overcome this limitation we wrote a replacement function for dealing the input of the model and we relied  on the optimization machinery of the package for estimating the parameters. 
+
+
+
+# Example code
+
+The code 'example.R' does illustrate the use of code.
+
+
+
+
+# Caution
+
+The functions are still experimental and should be used at your own risk.
