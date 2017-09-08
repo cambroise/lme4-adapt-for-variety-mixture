@@ -63,23 +63,23 @@ table(as.vector(Zc))
 ##############################################
 ListZ <- list(GMA=Zg,SMA=Zc)
 
+## Estimation of two different model (with and without GMA)
 mymod<-mylmer(Response =  Phenotype[[1]],X, ListZ,REML=FALSE) 
 mymod.gma<-mylmer(Response =  Phenotype[[1]],X, ListZ[1],REML=FALSE) 
 
+## Classical outputs
 summary(mymod)
 sigma(mymod)
 
-
+library(lattice)
 dotplot(myranef(mymod))
 
 
-
 pr01 <- profile(mymod)
-library(lattice)
 xyplot(pr01, aspect = 1.3)
 
 confint(pr01,level=0.9)
 splom(pr01)  
 
-# Testing the variance
+## Testing between models
 anova(mymod.gma,mymod)
