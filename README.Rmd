@@ -1,12 +1,14 @@
 ---
 title: R Code for allowing non binary random design matrix in the lme4 R package 
-author:  Christophe Ambroise
+author:  
 date: "`r Sys.Date()`"
 output: 
   html_document: 
     toc: yes
 ---
 
+
+An Rpub version of this page is published at http://rpubs.com/cambroise/305732
 
 # Mixed models and non  binary random design matrix
 
