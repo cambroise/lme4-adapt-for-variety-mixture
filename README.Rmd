@@ -8,6 +8,8 @@ output:
 ---
 
 
+An Rpub version of this page is published at http://rpubs.com/cambroise/305732
+
 # Mixed models and non  binary random design matrix
 
 The few functions described below allow to consider 
